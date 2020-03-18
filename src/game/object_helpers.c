@@ -29,6 +29,7 @@
 #include "object_helpers.h"
 #include "object_helpers2.h"
 
+
 s8 D_8032F0A0[] = { 0xF8, 0x08, 0xFC, 0x04 };
 s16 D_8032F0A4[] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80 };
 static s8 sLevelsWithRooms[] = { LEVEL_BBH, LEVEL_CASTLE, LEVEL_HMC, -1 };
@@ -42,6 +43,7 @@ extern void obj_translate_local(struct Object *, s16, s16);
 extern void obj_copy_pos(struct Object *, struct Object *);
 extern void obj_copy_angle(struct Object *, struct Object *);
 extern struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript *, f32 *);
+extern struct Object *cur_nearest_object(const BehaviorScript *, f32 *);
 extern void cur_obj_move_y(f32, f32, f32);
 static s32 clear_move_flag(u32 *, s32);
 extern void spawn_mist_particles_variable(s32, s32, f32);
@@ -881,6 +883,40 @@ struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript *b
     }
 
     *dist = minDist;
+    return closestObj;
+}
+
+struct Object *cur_nearest_object(const BehaviorScript *behavior, f32 *dist) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct Object *closestObj = NULL;
+    struct Object *obj;
+    struct ObjectNode *listHead;
+    f32 minDist = 0x20000;
+    s32 ObjectLoop[] = {OBJ_LIST_DESTRUCTIVE,OBJ_LIST_GENACTOR,OBJ_LIST_LEVEL,OBJ_LIST_PUSHABLE,OBJ_LIST_SPAWNER,OBJ_LIST_SURFACE,OBJ_LIST_POLELIKE};
+    u8 Penis;
+    Penis = 0;
+
+    while (Penis != 7) {
+        listHead = &gObjectLists[ObjectLoop[Penis]];
+        obj = (struct Object *) listHead->next;
+
+        while (obj != (struct Object *) listHead) {
+            //if (obj->behavior == behaviorAddr) {
+                if (obj->activeFlags != ACTIVE_FLAGS_DEACTIVATED && obj != o) {
+                    f32 objDist = dist_between_objects(o, obj);
+                    if (objDist < minDist) {
+                        closestObj = obj;
+                        minDist = objDist;
+                    }
+                }
+            //}
+            obj = (struct Object *) obj->header.next;
+        }
+
+        Penis ++;
+    }
+
+    //*dist = minDist;
     return closestObj;
 }
 

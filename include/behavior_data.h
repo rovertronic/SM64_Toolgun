@@ -542,5 +542,8 @@ extern const BehaviorScript bhvEndBirds1[];
 extern const BehaviorScript bhvEndBirds2[];
 extern const BehaviorScript bhvIntroScene[];
 extern const BehaviorScript bhvUnusedFakeStar[];
+extern const BehaviorScript bhvToolgunCursor[];
+extern const BehaviorScript bhvMarioClone[];
+extern const BehaviorScript bhvForeverPushableMetalBox[];
 
 #endif /* _BEHAVIOR_DATA_H */

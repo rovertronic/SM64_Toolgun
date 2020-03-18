@@ -333,6 +333,10 @@ struct MarioState
     /*0xAE*/ s16 health;
     /*0xB0*/ s16 unkB0;
     /*0xB2*/ u8 hurtCounter;
+            u8 ToolGunIndex;
+            u8 ToolGunType;
+            u8 ToolGunCharacter;
+            struct Object *ToolgunTarget;
     /*0xB3*/ u8 healCounter;
     /*0xB4*/ u8 squishTimer;
     /*0xB5*/ u8 fadeWarpOpacity;

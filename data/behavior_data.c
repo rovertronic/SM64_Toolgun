@@ -16,6 +16,7 @@
 
 #include "actors/common0.h"
 #include "actors/common1.h"
+#include "actors/group0.h"
 #include "actors/group1.h"
 #include "actors/group2.h"
 #include "actors/group3.h"
@@ -1722,10 +1723,22 @@ const BehaviorScript bhvPushableMetalBox[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     LOAD_COLLISION_DATA(metal_box_seg8_collision_08024C28),
-    SET_FLOAT(oCollisionDistance, 500),
+    SET_FLOAT(oCollisionDistance, 2000),
     SET_HOME(),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_pushable_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvForeverPushableMetalBox[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_COLLISION_DATA(metal_box_seg8_collision_08024C28),
+    SET_FLOAT(oCollisionDistance, 20000),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        //CALL_NATIVE(bhv_pushable_loop),
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
@@ -2733,7 +2746,7 @@ const BehaviorScript bhvInSunkenShip2[] = {
 };
 
 const BehaviorScript bhvMarioDustGenerator[] = {
-    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN(OBJ_LIST_UNIMPORTANT),
     BIT_CLEAR_INT32(oActiveParticleFlags, ACTIVE_PARTICLE_0),
     DISABLE_RENDERING(),
     SPAWN_CHILD(/*Model*/ MODEL_MIST, /*Behavior*/ bhvWhitePuff1),
@@ -2743,7 +2756,7 @@ const BehaviorScript bhvMarioDustGenerator[] = {
 };
 
 const BehaviorScript bhvWhitePuff1[] = {
-    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN(OBJ_LIST_UNIMPORTANT),
     BIT_CLEAR_INT32(oActiveParticleFlags, ACTIVE_PARTICLE_0),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     BILLBOARD(),
@@ -3477,6 +3490,30 @@ const BehaviorScript bhvMario[] = {
         CALL_NATIVE(try_print_debug_mario_level_info),
         CALL_NATIVE(bhv_mario_update),
         CALL_NATIVE(try_do_mario_debug_object_spawn),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvToolgunCursor[] = {
+    BEGIN(OBJ_LIST_UNUSED_1),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhvToolGunLoop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvMarioClone[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, peniswish),
+    ANIMATE(0),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 100),
+    SET_INT(oIntangibleTimer, 0),
+    CALL_NATIVE(bhv_init_room),
+    CALL_NATIVE(bhv_toad_message_init),
+    BEGIN_LOOP(),
+        //CALL_NATIVE(bhv_toad_message_loop),
     END_LOOP(),
 };
 

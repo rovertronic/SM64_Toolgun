@@ -16,3 +16,8 @@
 #include "water_splash/geo.inc.c"
 #include "sparkle_animation/geo.inc.c"
 #include "mario/geo.inc.c"
+#include "kermit/geo.inc.c"
+#include "peach_2/geo.inc.c"
+#include "imbie/geo.inc.c"
+#include "thwomp/geo.inc.c"
+#include "kappa/geo.inc.c"

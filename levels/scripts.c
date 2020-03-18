@@ -64,6 +64,12 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_RAW( /*seg*/ 0x13, _behaviorSegmentRomStart, _behaviorSegmentRomEnd),
     ALLOC_LEVEL_POOL(),
     LOAD_MODEL_FROM_GEO(MODEL_MARIO,                   mario_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_LUIGI,                   kermit_geo),
+    LOAD_MODEL_FROM_GEO(255,                           peach_2_geo),
+    LOAD_MODEL_FROM_GEO(254,                           imbie_geo),
+    LOAD_MODEL_FROM_GEO(253,                           thwomp_geo),
+    LOAD_MODEL_FROM_GEO(252,                           kappa_geo),
+
     LOAD_MODEL_FROM_GEO(MODEL_SMOKE,                   smoke_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SPARKLES,                sparkles_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BUBBLE,                  bubble_geo),
@@ -199,7 +205,6 @@ const LevelScript script_func_global_2[] = {
     LOAD_MODEL_FROM_GEO(MODEL_YELLOW_SPHERE,           yellow_sphere_geo),
     LOAD_MODEL_FROM_GEO(MODEL_HOOT,                    hoot_geo),
     LOAD_MODEL_FROM_GEO(MODEL_YOSHI_EGG,               yoshi_egg_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_THWOMP,                  thwomp_geo),
     LOAD_MODEL_FROM_GEO(MODEL_HEAVE_HO,                heave_ho_geo),
     RETURN(),
 };

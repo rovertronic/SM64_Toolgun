@@ -189,8 +189,50 @@
 #define TEXT_MYSCORE _("MYSCORE")
 #define TEXT_CONTINUE _("CONTINUE")
 #define TEXT_EXIT_COURSE _("EXIT COURSE")
+
+//TOOL GUN
+#define TEXT_TOOLGUN_CREDIT _("Toolgun 1.0.0 - March 3.15.2020 - By Rovert")
+
+#define TEXT_TOOLGUN _("PLACE")
+#define TEXT_TOOLGUN_REMOVE _("DELETE")
+#define TEXT_TOOLGUN_CHARACTER _("CHANGE PLAYERMODEL")
+
+#define TEXT_TOOLGUN_HELP_GLOBAL _("Use DPad Up and Down to change pages.")
+
+#define TEXT_TOOLGUN_HELP_1 _("Use DPad Left and Right to change items.")
+#define TEXT_TOOLGUN_HELP_2 _("Use L in-game to place objects.")
+#define TEXT_TOOLGUN_HELP_REMOVE _("Use L in-game to delete nearest object.")
+#define TEXT_TOOLGUN_0 _("None")
+#define TEXT_TOOLGUN_1 _("1.Metal Box")
+#define TEXT_TOOLGUN_2 _("2.Small Corkbox")
+#define TEXT_TOOLGUN_3 _("3.Metal Cap")
+#define TEXT_TOOLGUN_4 _("4.Wing Cap")
+#define TEXT_TOOLGUN_5 _("5.Healing Heart")
+#define TEXT_TOOLGUN_6 _("6.Coin")
+#define TEXT_TOOLGUN_7 _("7.Rideable Shell")
+#define TEXT_TOOLGUN_8 _("8.Fly Guy")
+#define TEXT_TOOLGUN_9 _("9.Fire Spewer")
+#define TEXT_TOOLGUN_10 _("10.Static Fire")
+#define TEXT_TOOLGUN_11 _("11.Blue Fire")
+#define TEXT_TOOLGUN_12 _("12.Butterfly")
+#define TEXT_TOOLGUN_13 _("13.Character Clone")
+#define TEXT_TOOLGUN_14 _("14.Thwomp")
+#define TEXT_TOOLGUN_15 _("15.Bob-Omb")
+#define TEXT_TOOLGUN_16 _("16.Always Solid Box")
+#define TEXT_TOOLGUN_17 _("17.1-Up")
+#define TEXT_TOOLGUN_18 _("18.Green Demon")
+#define TEXT_TOOLGUN_19 _("19.Chuckya")
+#define TEXT_TOOLGUN_20 _("20.Power Star")
+
+#define TEXT_TOOLGUN_CHARACTER_1 _("Skinned Mario (By InTheBeef)")
+#define TEXT_TOOLGUN_CHARACTER_2 _("Kermit the Frog (By anonymous moose)")
+#define TEXT_TOOLGUN_CHARACTER_3 _("Peach (By MissDessire)")
+#define TEXT_TOOLGUN_CHARACTER_4 _("Thwomp (Not work on N64)")
+#define TEXT_TOOLGUN_CHARACTER_5 _("Indiana Mario (By anonymous moose)")
+#define TEXT_TOOLGUN_CHARACTER_6 _("Koopa (By Issac22)")
+
 #ifndef VERSION_EU // "R" text is different in EU
-#define TEXT_CAMERA_ANGLE_R _("SET CAMERA ANGLE WITH R")
+#define TEXT_CAMERA_ANGLE_R _("TOOL GUN")
 #endif
 
 // Camera Options
@@ -327,7 +369,7 @@
  */
 // Main Courses
 // English, "R" text is different
-#define TEXT_CAMERA_ANGLE_R             _("SET CAMERA ANGLE WITH [R]")
+#define TEXT_CAMERA_ANGLE_R             _("TOOL GUN")
 // French
 #define TEXT_COURSE_FR                  _("NIVEAU")
 #define TEXT_MY_SCORE_FR                _("MON SCORE")

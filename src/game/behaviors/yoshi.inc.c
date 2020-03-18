@@ -178,3 +178,29 @@ void bhv_yoshi_loop(void) {
 
     curr_obj_random_blink(&o->oYoshiUnkF4);
 }
+
+void bhvToolGunLoop () {
+    f32 floor;
+    f32 *poonis;
+    struct Object *fli;
+
+
+    switch(gMarioState->ToolGunType) {
+        case 0:
+            o->oPosX = gMarioState->pos[0] + sins(gMarioState->faceAngle[1]) * 300.0f;
+            o->oPosZ = gMarioState->pos[2] + coss(gMarioState->faceAngle[1]) * 300.0f;
+
+            floor = find_floor_height(o->oPosX, gMarioState->pos[1] + 500.0f, o->oPosZ);
+            o->oPosY = floor;
+        break;
+        case 1:
+            o->oPosX = gMarioState->ToolgunTarget->oPosX;
+            o->oPosY = gMarioState->ToolgunTarget->oPosY + 200.0f;
+            o->oPosZ = gMarioState->ToolgunTarget->oPosZ;
+        break;
+    }
+
+if ((gMarioState->ToolGunIndex == 0) && (gMarioState->ToolGunType == 0)) {
+    o->oPosY = -8000.0f;
+    }
+}

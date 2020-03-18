@@ -31,6 +31,38 @@ extern Gfx coin_seg3_dl_030079B8[];
 extern u8 main_menu_seg7_table_0700ABD0[];
 extern Gfx castle_grounds_seg7_dl_0700EA58[];
 
+u8 tg0[] = { TEXT_TOOLGUN_0 };
+u8 tg1[] = { TEXT_TOOLGUN_1 };
+u8 tg2[] = { TEXT_TOOLGUN_2 };
+u8 tg3[] = { TEXT_TOOLGUN_3 };
+u8 tg4[] = { TEXT_TOOLGUN_4 };
+u8 tg5[] = { TEXT_TOOLGUN_5 };
+u8 tg6[] = { TEXT_TOOLGUN_6 };
+u8 tg7[] = { TEXT_TOOLGUN_7 };
+u8 tg8[] = { TEXT_TOOLGUN_8 };
+u8 tg9[] = { TEXT_TOOLGUN_9 };
+u8 tg10[] = { TEXT_TOOLGUN_10 };
+u8 tg11[] = { TEXT_TOOLGUN_11 };
+u8 tg12[] = { TEXT_TOOLGUN_12 };
+u8 tg13[] = { TEXT_TOOLGUN_13 };
+u8 tg14[] = { TEXT_TOOLGUN_14 };
+u8 tg15[] = { TEXT_TOOLGUN_15 };
+u8 tg16[] = { TEXT_TOOLGUN_16 };
+u8 tg17[] = { TEXT_TOOLGUN_17 };
+u8 tg18[] = { TEXT_TOOLGUN_18 };
+u8 tg19[] = { TEXT_TOOLGUN_19 };
+u8 tg20[] = { TEXT_TOOLGUN_20 };
+
+u8 tgc0[] = { TEXT_TOOLGUN_CHARACTER_1 };
+u8 tgc1[] = { TEXT_TOOLGUN_CHARACTER_2 };
+u8 tgc2[] = { TEXT_TOOLGUN_CHARACTER_3 };
+u8 tgc3[] = { TEXT_TOOLGUN_CHARACTER_4 };
+u8 tgc4[] = { TEXT_TOOLGUN_CHARACTER_5 };
+u8 tgc5[] = { TEXT_TOOLGUN_CHARACTER_6 };
+
+u8 *ToolGunNames[] = {{tg0},{tg1},{tg2},{tg3},{tg4},{tg5},{tg6},{tg7},{tg8},{tg9},{tg10},{tg11},{tg12},{tg13},{tg14},{tg15},{tg16},{tg17},{tg18},{tg19},{tg20}};
+u8 *ToolGunCharNames[] = {{tgc0},{tgc1},{tgc2},{tgc3},{tgc4},{tgc5}};
+
 u16 gDialogColorFadeTimer;
 s8 gLastDialogLineNum;
 s32 gDialogVariable;
@@ -2337,6 +2369,17 @@ void render_pause_camera_options(s16 x, s16 y, s8 *index, s16 xIndex) {
     }
 }
 
+void LR_ToolGun_control(void) {
+        if ((gPlayer1Controller->buttonPressed & R_JPAD)&& (gMarioState->ToolGunIndex < 20)) {
+            gMarioState->ToolGunIndex ++;
+            play_sound(SOUND_MENU_CHANGE_SELECT, gDefaultSoundArgs);
+        } 
+        if ((gPlayer1Controller->buttonPressed & L_JPAD) && (gMarioState->ToolGunIndex > 0) ) {
+            gMarioState->ToolGunIndex --;
+            play_sound(SOUND_MENU_CHANGE_SELECT, gDefaultSoundArgs);
+        } 
+}
+
 #ifdef VERSION_JP
 #define X_VAL8 0
 #define Y_VAL8 4
@@ -2366,9 +2409,18 @@ void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
 #define textExitCourse   textExitCourse[gInGameLanguage]
 #define textCameraAngleR textCameraAngleR[gInGameLanguage]
 #else
+    u8 textToolgunCredit[] = { TEXT_TOOLGUN_CREDIT };
     u8 textContinue[] = { TEXT_CONTINUE };
     u8 textExitCourse[] = { TEXT_EXIT_COURSE };
+    u8 textToolgun[] = { TEXT_TOOLGUN };
+    u8 textToolgunRemove[] = { TEXT_TOOLGUN_REMOVE };
+    u8 textToolgunChar[] = { TEXT_TOOLGUN_CHARACTER };
+    u8 textToolgunGlob[] = { TEXT_TOOLGUN_HELP_GLOBAL };
+    u8 textToolgunHelp1[] = { TEXT_TOOLGUN_HELP_1 };
+    u8 textToolgunHelp2[] = { TEXT_TOOLGUN_HELP_2 };
+    u8 textToolgunHelp3[] = { TEXT_TOOLGUN_HELP_REMOVE };
     u8 textCameraAngleR[] = { TEXT_CAMERA_ANGLE_R };
+
 #endif
 
     handle_menu_scrolling(MENU_SCROLL_VERTICAL, index, 1, 3);
@@ -2376,10 +2428,13 @@ void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
 
-    print_generic_string(x + 10, y - 2, textContinue);
-    print_generic_string(x + 10, y - 17, textExitCourse);
 
     if (index[0] != 3) {
+        print_generic_string(x + 10, y - 2, textContinue);
+        print_generic_string(x + 10, y - 17, textExitCourse);
+
+        print_generic_string(x + 10, y - 17, textExitCourse);
+
         print_generic_string(x + 10, y - 33, textCameraAngleR);
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
@@ -2391,9 +2446,51 @@ void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
     }
 
     if (index[0] == 3) {
-        render_pause_camera_options(x - 42, y - 42, &gDialogCameraAngleIndex, 110);
+
+        if ((gPlayer1Controller->buttonPressed & D_JPAD) && (gMarioState->ToolGunType < 2)) {
+            gMarioState->ToolGunType ++;
+            play_sound(SOUND_MENU_CHANGE_SELECT, gDefaultSoundArgs);
+        } 
+        if ((gPlayer1Controller->buttonPressed & U_JPAD) && (gMarioState->ToolGunType > 0) ) {
+            gMarioState->ToolGunType --;
+            play_sound(SOUND_MENU_CHANGE_SELECT, gDefaultSoundArgs);
+        } 
+        
+        print_generic_string(x - 50, y +100, textToolgunCredit);
+        print_generic_string(x - 30, y -80, textToolgunGlob);
+
+        switch(gMarioState->ToolGunType) {
+        case 0:
+            LR_ToolGun_control();
+
+            print_generic_string(x + 10, y -2, textToolgun);
+            print_generic_string(x - 30, y -43, textToolgunHelp1);
+            print_generic_string(x - 30, y -63, textToolgunHelp2);
+
+            print_generic_string(x + 10, y - 17, ToolGunNames[gMarioState->ToolGunIndex]);
+        break;
+        case 1:
+            print_generic_string(x + 10, y -2, textToolgunRemove);
+            print_generic_string(x - 30, y -43, textToolgunHelp3);
+        break;
+        case 2:
+            print_generic_string(x + 10, y -2, textToolgunChar);
+            print_generic_string(x + 10, y - 17, ToolGunCharNames[gMarioState->ToolGunCharacter]);
+            if ((gPlayer1Controller->buttonPressed & R_JPAD) && (gMarioState->ToolGunCharacter < 5)) {
+                gMarioState->ToolGunCharacter ++;
+                play_sound(SOUND_MENU_CHANGE_SELECT, gDefaultSoundArgs);
+            } 
+            if ((gPlayer1Controller->buttonPressed & L_JPAD) && (gMarioState->ToolGunCharacter > 0) ) {
+                gMarioState->ToolGunCharacter --;
+                play_sound(SOUND_MENU_CHANGE_SELECT, gDefaultSoundArgs);
+            } 
+        break;
+        }
+
+
     }
 }
+
 
 void render_pause_castle_menu_box(s16 x, s16 y) {
     create_dl_translation_matrix(MENU_MTX_PUSH, x - 78, y - 32, 0);
@@ -2612,9 +2709,9 @@ s16 render_pause_courses_and_castle(void) {
             render_pause_my_score_coins();
             render_pause_red_coins();
 
-            if (gMarioStates[0].action & ACT_FLAG_PAUSE_EXIT) {
+            //if (gMarioStates[0].action & ACT_FLAG_PAUSE_EXIT) {
                 render_pause_course_options(99, 93, &gDialogLineNum, 15);
-            }
+            //}
 
 #ifdef VERSION_EU
             if (gPlayer3Controller->buttonPressed & (A_BUTTON | Z_TRIG | START_BUTTON))

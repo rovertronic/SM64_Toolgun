@@ -159,11 +159,11 @@ MIPSISET := -mips2 -32
 ifeq ($(VERSION),eu)
   OPT_FLAGS := -O2
 else
-ifeq ($(VERSION),sh)
+#ifeq ($(VERSION),sh)
   OPT_FLAGS := -O2
-else
-  OPT_FLAGS := -g
-endif
+#else
+  #OPT_FLAGS := -g
+#endif
 endif
 
 # File dependencies and variables for specific files

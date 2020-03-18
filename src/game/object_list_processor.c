@@ -179,6 +179,7 @@ s8 sObjectListUpdateOrder[] = { OBJ_LIST_SPAWNER,
                                 OBJ_LIST_LEVEL,
                                 OBJ_LIST_DEFAULT,
                                 OBJ_LIST_UNIMPORTANT,
+                                OBJ_LIST_UNUSED_1,
                                 -1 };
 
 /**

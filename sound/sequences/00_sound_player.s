@@ -2819,6 +2819,9 @@ sound_ref .sound_general_boing3
 sound_ref .sound_general_grand_star
 sound_ref .sound_general_grand_star_jump
 sound_ref .sound_general_boat_rock
+sound_ref .sound_toolgun
+
+
 .ifdef VERSION_JP
   sound_ref .sound_menu_enter_hole
   sound_ref .sound_menu_enter_hole
@@ -4319,6 +4322,12 @@ chan_jump .sound_obj_koopa_the_quick_walk
 
 .sound_general_enemy_alert1:
 chan_jump .sound_obj_goomba_alert
+
+.sound_toolgun:
+chan_setbank 0
+chan_setinstr 6
+chan_setlayer 0, .layer_1A35
+chan_end
 
 .sound_general_yoshi_talk:
 chan_setbank 0

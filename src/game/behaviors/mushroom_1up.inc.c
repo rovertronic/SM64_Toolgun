@@ -1,12 +1,21 @@
 // mushroom_1up.c.inc
+s32 evil = FALSE;
 
 void bhv_1up_interact(void) {
     UNUSED s32 sp1C;
 
     if (obj_check_if_collided_with_object(o, gMarioObject) == 1) {
-        play_sound(SOUND_GENERAL_COLLECT_1UP, gDefaultSoundArgs);
-        gMarioState->numLives++;
-        o->activeFlags = 0;
+        if (o->oBehParams2ndByte == 0) {
+            play_sound(SOUND_GENERAL_COLLECT_1UP, gDefaultSoundArgs);
+            gMarioState->numLives++;
+            o->activeFlags = 0;
+            }
+            else
+            {
+            gMarioState->health = 0;
+            play_sound(SOUND_MARIO_DROWNING, gDefaultSoundArgs);
+            o->activeFlags = 0;
+            }
     }
 }
 
@@ -19,13 +28,7 @@ void bhv_1up_common_init(void) {
 
 void bhv_1up_init(void) {
     bhv_1up_common_init();
-    if (o->oBehParams2ndByte == 1) {
-        if ((save_file_get_flags() & 0x50) == 0)
-            o->activeFlags = 0;
-    } else if (o->oBehParams2ndByte == 2) {
-        if ((save_file_get_flags() & 0xa0) == 0)
-            o->activeFlags = 0;
-    }
+    o->oBehParams2ndByte = 0;
 }
 
 void one_up_loop_in_air(void) {
@@ -261,6 +264,7 @@ void bhv_1up_hidden_trigger_loop(void) {
 void bhv_1up_hidden_in_pole_loop(void) {
     UNUSED s16 sp26;
     switch (o->oAction) {
+
         case 0:
             o->header.gfx.node.flags |= 0x10;
             if (o->o1UpHiddenUnkF4 == o->oBehParams2ndByte) {
@@ -287,6 +291,7 @@ void bhv_1up_hidden_in_pole_loop(void) {
                 cur_obj_become_tangible();
                 o->oAction = 1;
                 o->oForwardVel = 10.0f;
+                o->oBehParams2ndByte = 1;
             }
             break;
     }

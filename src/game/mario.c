@@ -32,6 +32,7 @@
 #include "engine/surface_collision.h"
 #include "level_table.h"
 
+s32 ToolGunSelect = 0;
 u32 unused80339F10;
 s8 filler80339F1C[20];
 
@@ -1675,11 +1676,66 @@ static void debug_update_mario_cap(u16 button, s32 flags, u16 capTimer, u16 capM
     }
 }
 
+
 /**
  * Main function for executing Mario's behavior.
  */
 s32 execute_mario_action(UNUSED struct Object *o) {
     s32 inLoop = TRUE;
+    f32 floor;
+    struct Object *fli;
+
+    s32 ToolGunList[] = {0,bhvPushableMetalBox,bhvBreakableBoxSmall,bhvMetalCap,bhvWingCap,bhvRecoveryHeart,bhvYellowCoin,
+    bhvKoopaShell,bhvFlyGuy,bhvFireSpitter,bhvFlame,bhvFlame,bhvButterfly,bhvMarioClone,bhvThwomp,bhvBobomb,bhvForeverPushableMetalBox,bhv1Up,bhvHidden1upInPole,
+    bhvChuckya,bhvSpawnedStarNoLevelExit};
+    s32 ToolGunModels[] = {0,MODEL_METAL_BOX,MODEL_BREAKABLE_BOX_SMALL,MODEL_MARIOS_METAL_CAP,MODEL_MARIOS_WING_CAP,MODEL_HEART,MODEL_YELLOW_COIN,
+    MODEL_KOOPA_SHELL,MODEL_FLYGUY,MODEL_BOWLING_BALL,MODEL_RED_FLAME,MODEL_BLUE_FLAME,MODEL_BUTTERFLY,MODEL_NONE,253,MODEL_BLACK_BOBOMB,MODEL_METAL_BOX,
+    MODEL_1UP,MODEL_1UP,MODEL_CHUCKYA,MODEL_STAR};
+    s32 ToolGunYoff[] = {0.0f,0.0f,0.0f,0.0f,0.0f,40.0f,0.0f,0.0f,0.0f,0.0f,30.0f,30.0f,0.0f,50.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,99.0f};
+    s32 CharModels[] = {MODEL_MARIO,MODEL_LUIGI,255,253,254,252};
+
+    gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[CharModels[gMarioState->ToolGunCharacter]];
+
+    if (gPlayer1Controller->buttonPressed & L_TRIG) { 
+
+        if (!((gMarioState->ToolGunIndex == 0) && (gMarioState->ToolGunType == 0))) {
+            play_sound(SOUND_TOOLGUN, gDefaultSoundArgs);
+            }
+
+        switch(gMarioState->ToolGunType) {
+            case 0:
+                if (gMarioState->ToolGunIndex > 0) {
+                
+                if (gMarioState->ToolGunIndex != 13) {
+                    fli = spawn_object(o, ToolGunModels[gMarioState->ToolGunIndex], ToolGunList[gMarioState->ToolGunIndex]);
+                    }
+                    else
+                    {
+                    fli = spawn_object(o, CharModels[gMarioState->ToolGunCharacter], ToolGunList[gMarioState->ToolGunIndex]);
+                    }
+
+                fli->oPosX = gMarioState->pos[0] + sins(gMarioState->faceAngle[1]) * 300.0f;
+                fli->oPosZ = gMarioState->pos[2] + coss(gMarioState->faceAngle[1]) * 300.0f;
+
+                floor = find_floor_height(fli->oPosX, gMarioState->pos[1] + 500.0f, fli->oPosZ);
+                fli->oPosY = floor + ToolGunYoff[gMarioState->ToolGunIndex];
+                }
+            break;
+
+            //DELETE
+            case 1:
+                fli = cur_nearest_object(bhvBobomb);
+                if (fli != 0) {
+                    obj_mark_for_deletion(fli);
+                    }
+            break;
+        }
+    }
+
+    fli = cur_nearest_object(bhvBobomb);
+    if (fli != 0) {
+        gMarioState->ToolgunTarget = fli;
+        }
 
     if (gMarioState->action) {
         gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
@@ -1757,6 +1813,8 @@ s32 execute_mario_action(UNUSED struct Object *o) {
         return gMarioState->particleFlags;
     }
 
+    set_mario_animation(gMarioState, MARIO_ANIM_A_POSE);
+
     return 0;
 }
 
@@ -1769,6 +1827,8 @@ void init_mario(void) {
     struct Object *capObject;
 
     unused80339F10 = 0;
+
+    spawn_object(gMarioObject, MODEL_RED_COIN, bhvToolgunCursor);
 
     gMarioState->actionTimer = 0;
     gMarioState->framesSinceA = 0xFF;
@@ -1789,6 +1849,9 @@ void init_mario(void) {
 
     gMarioState->hurtCounter = 0;
     gMarioState->healCounter = 0;
+
+    gMarioState->ToolGunIndex = 0;
+    gMarioState->ToolGunType = 0;
 
     gMarioState->capTimer = 0;
     gMarioState->quicksandDepth = 0.0f;
@@ -1848,6 +1911,8 @@ void init_mario(void) {
 }
 
 void init_mario_from_save_file(void) {
+    gMarioState->ToolGunCharacter = 0;
+
     gMarioState->unk00 = 0;
     gMarioState->flags = 0;
     gMarioState->action = 0;

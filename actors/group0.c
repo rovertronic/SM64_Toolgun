@@ -8,6 +8,17 @@
 // Note: This bin does not use bin IDs, unlike the other segmented bins.
 #include "mario/model.inc.c"
 
+#include "kermit/model.inc.c"
+
+#include "peach_2/model.inc.c"
+
+#include "imbie/model.inc.c"
+
+#include "kappa/model.inc.c"
+
+#include "thwomp/model.inc.c"
+#include "thwomp/collision.inc.c"
+
 #include "bubble/model.inc.c"
 
 #include "walk_smoke/model.inc.c"
@@ -25,3 +36,5 @@
 #include "white_particle_small/model.inc.c"
 
 #include "sparkle_animation/model.inc.c"
+
+#include "mario/anim_wave.inc.c"
